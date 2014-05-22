@@ -222,11 +222,16 @@ int main(int argc, char *argv[]) {
 			case 5:
 				printf("Enter the index : ");
 				scanf("%d",&index);
-			 	if(index<0 || index > get_nodes_count(head)) {
+				count = get_nodes_count(head);
+			 	if(index<0 || index > count ) {
 					printf("\nPlease give a valid index\n");
+					printf("List itself have %d elements only.\n",count);
+					printf("At a maximum, you can insert at the index %d.\n",count);
+					printf("Note : Element's index is starting at 0.\n");
 				}else{
 					insert_at_index(&head,get_element(),index);
 				}			
+				count = 0;
 				break;
 			case 6:
 				delete_first(&head);
