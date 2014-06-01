@@ -84,8 +84,15 @@ void delete_after_node(node_t **head){
 	printf("Enter the element after which node should be deleted : ");
 	scanf("%d",&element);
 	int index = get_node_index(*head,element);
+	int count = get_nodes_count(*head);
+	printf("Index : %d",index);
+	printf("count : %d",count);
  	if(index!=-1){
-        	delete_at_index(head,index+1);
+		if(index>=count-1){
+			printf("There is no element present after %d\n", element);
+		}else{
+        		delete_at_index(head,index+1);
+		}
 	} else {
 		printf("The element %d is not available in the list\n",element);	
 	}	
