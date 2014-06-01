@@ -18,6 +18,9 @@ void insert_last(node_t **, int);
 void insert_at_index(node_t **, int, int);
 void delete_first(node_t **);
 void delete_last(node_t **);
+void delete_after_node(node_t **);
+void delete_before_node(node_t **);
+void delete_at_index(node_t **,int);
 int get_node_index(node_t *,int );
 int get_element();
 
@@ -52,6 +55,41 @@ void delete_last(node_t **head){
 	
 }
 
+void delete_at_index(node_t **head, int index) { 
+	if(index==0){
+		delete_first(head);
+	}else if(index == get_nodes_count(*head)){
+		delete_last(head);
+	}else{
+		node_t *first = *head;
+		node_t *middle = *head;
+		node_t *second = *head;
+		node_t *current = *head;
+		int i;
+		for(i=0;i<=index-1;i++) { 
+			first = current;
+			current = current->next;
+			middle = current;
+			second = middle->next;
+		}
+		first->next = second;
+		int item = middle->data;
+		free(middle);
+		printf("Removed the item %d from the list",item);
+	}
+}
+
+void delete_after_node(node_t **head){
+	int element;
+	printf("Enter the element after which node should be deleted : ");
+	scanf("%d",&element);
+	int index = get_node_index(*head,element);
+ 	if(index!=-1){
+        	delete_at_index(head,index+1);
+	} else {
+		printf("The element %d is not available in the list\n",element);	
+	}	
+}
 void insert_after_node(node_t **head){
 	int element;
 	printf("Enter the element after which node should be inserted : ");
@@ -64,6 +102,17 @@ void insert_after_node(node_t **head){
 	}	
 }
 
+void delete_before_node(node_t **head){
+	int element;
+	printf("Enter the element before which node should be deleted : ");
+	scanf("%d",&element);
+	int index = get_node_index(*head,element);
+ 	if(index!=-1){
+        	delete_at_index(head,index-1);
+	} else {
+		printf("The element %d is not available in the list\n",element);	
+	}	
+}
 void insert_before_node(node_t **head){
 	int element;
 	printf("Enter the element before which node should be inserted : ");
@@ -238,6 +287,26 @@ int main(int argc, char *argv[]) {
 				break;
 			case 7:
 				delete_last(&head);
+				break;
+			case 8:
+				delete_after_node(&head);
+				break;
+			case 9:
+				delete_before_node(&head);
+				break;
+			case 10:
+				printf("Enter the index : ");
+				scanf("%d",&index);
+				count = get_nodes_count(head);
+			 	if(index<0 || index >= count ) {
+					printf("\nPlease give a valid index\n");
+					printf("List itself have %d elements only.\n",count);
+					printf("At a maximum, you can delete at the index %d.\n",count-1);
+					printf("Note : Element's index is starting at 0.\n");
+				}else{
+					delete_at_index(&head,index);
+				}			
+				count = 0;
 				break;
 			case 11:
 				print_list(head);
