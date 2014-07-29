@@ -54,7 +54,7 @@ level1
 
 
 #############OUTPUT#####################
-# dsivaji@dsivaji-VirtualBox:~/pgms/tcl$ ./upvar.tcl 
+# dinesh@dinesh-VirtualBox:~/pgms/tcl$ ./upvar.tcl 
 # 0
 # Final : (value of b) = 1
 # vignesh
