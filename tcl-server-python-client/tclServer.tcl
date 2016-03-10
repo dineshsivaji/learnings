@@ -58,12 +58,9 @@ proc svcHandler {sock} {
         if {$userTclCmd eq {} } {
             set cmdResponse {}
         } else {
-            # Checking if it is xml load or capture the packets for stcSimple
-            if {[regexp {stcSimple_startup\s+-config} $userTclCmd ] || [regexp {stcSimple_captureStopAndSaveAllPorts} $userTclCmd ]} {
-                set cmdResponse [sandBox $sock $userTclCmd]
-            } else {
-                catch {interp eval $tclEngine($sock) $userTclCmd} cmdResponse
-            }
+		# If needed, it can be executed in 'sandBox' to enable the hidden cmds
+		# set cmdResponse [sandBox $sock $userTclCmd]
+		catch {interp eval $tclEngine($sock) $userTclCmd} cmdResponse
         }
         puts "My response : $cmdResponse"
         writeSocket $sock $cmdResponse; # Writing the response over socket 
