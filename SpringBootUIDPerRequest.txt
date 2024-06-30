@@ -1,0 +1,74 @@
+
+#    org.springframework.web.filter.CommonsRequestLoggingFilter: TRACE
+#    org.springframework.security: TRACE
+#  pattern:
+#    console: "%blue(%d{ISO8601}) %X{MDC_UUID_TOKEN_KEY} %highlight(%-5level) [%blue(%t)] %yellow(%C{1.}): %msg%n%throwable"
+
+
+
+# package io.baffle.bm.auth;
+#
+# import jakarta.servlet.FilterChain;
+# import jakarta.servlet.http.HttpServletRequest;
+# import jakarta.servlet.http.HttpServletResponse;
+# import java.util.UUID;
+# import lombok.EqualsAndHashCode;
+# import lombok.extern.slf4j.Slf4j;
+# import org.slf4j.MDC;
+# import org.springframework.stereotype.Component;
+# import org.springframework.web.filter.OncePerRequestFilter;
+#
+# @EqualsAndHashCode(callSuper = false)
+# @Component
+# @Slf4j
+# public class Slf4jMDCFilter extends OncePerRequestFilter {
+#
+#   @Override
+#   protected void doFilterInternal(
+#       final HttpServletRequest request,
+#       final HttpServletResponse response,
+#       final FilterChain chain) {
+#     try {
+#       String val = request.getRequestURI() + " - " + UUID.randomUUID();
+#       MDC.put("MDC_UUID_TOKEN_KEY", val);
+#       chain.doFilter(request, response);
+#     } catch (Exception ex) {
+#       log.error("Exception occurred in filter while setting UUID for logs", ex);
+#     } finally {
+#       MDC.remove("MDC_UUID_TOKEN_KEY");
+#     }
+#   }
+#
+#   @Override
+#   protected boolean isAsyncDispatch(final HttpServletRequest request) {
+#     return false;
+#   }
+#
+#   @Override
+#   protected boolean shouldNotFilterErrorDispatch() {
+#     return false;
+#   }
+# }
+#
+# package io.baffle.bm.auth;
+#
+# import lombok.RequiredArgsConstructor;
+# import org.springframework.boot.web.servlet.FilterRegistrationBean;
+# import org.springframework.context.annotation.Bean;
+# import org.springframework.context.annotation.Configuration;
+#
+# @Configuration
+# @RequiredArgsConstructor
+# public class BeanConfig {
+#   private final Slf4jMDCFilter slf4jMDCFilter;
+#
+#   @Bean
+#   public FilterRegistrationBean<Slf4jMDCFilter> servletRegistrationBean() {
+#     final FilterRegistrationBean<Slf4jMDCFilter> filterRegistrationBean =
+#         new FilterRegistrationBean<>();
+#     filterRegistrationBean.setFilter(slf4jMDCFilter);
+#     filterRegistrationBean.setOrder(2);
+#     return filterRegistrationBean;
+#   }
+# }
+#
